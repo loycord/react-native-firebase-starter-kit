@@ -1,5 +1,18 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  Platform,
+  Image,
+  Text,
+  View,
+  ScrollView,
+  Button,
+  Alert,
+  PermissionsAndroid
+} from 'react-native';
+
+//APIs
+import Permissions from 'react-native-permissions';
 
 import firebase from 'react-native-firebase';
 
@@ -7,23 +20,49 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      // firebase things?
+      photoPermission: ''
     };
   }
 
+  _alertForPhotosPermission = () => {
+    console.log('3');
+    if (this.state.photoPermission !== 'authorized') {
+      Permissions.request('photo').then(response => {
+        // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      });
+    }
+  };
+
+  // Check the status of a single permission
   componentDidMount() {
-    // firebase things?
+    if (Platform.OS === 'android') {
+      Permissions.check('photo').then(response => {
+        console.log(response);
+        // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+        this.setState({ photoPermission: response });
+      });
+    }
   }
 
   render() {
+    console.log(this.state.photoPermission);
+    console.log('2');
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Image source={require('./assets/RNFirebase.png')} style={[styles.logo]}/>
+          <Image
+            source={require('./assets/RNFirebase.png')}
+            style={[styles.logo]}
+          />
           <Text style={styles.welcome}>
-            Welcome to {'\n'} React Native Firebase
+            Welcome to {'\n'} React Native Firebase!!!
           </Text>
-          <Text style={styles.instructions}>
+          <Button
+            title="permissions test"
+            onPress={this._alertForPhotosPermission}
+          />
+
+          {/* <Text style={styles.instructions}>
             To get started, edit App.js
           </Text>
           {Platform.OS === 'ios' ? (
@@ -54,7 +93,7 @@ export default class App extends React.Component {
             {firebase.notifications.nativeModuleExists && <Text style={styles.module}>notifications()</Text>}
             {firebase.perf.nativeModuleExists && <Text style={styles.module}>perf()</Text>}
             {firebase.storage.nativeModuleExists && <Text style={styles.module}>storage()</Text>}
-          </View>
+          </View> */}
         </View>
       </ScrollView>
     );
@@ -66,34 +105,34 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#F5FCFF'
   },
   logo: {
     height: 120,
     marginBottom: 16,
     marginTop: 32,
-    width: 120,
+    width: 120
   },
   welcome: {
     fontSize: 20,
     textAlign: 'center',
-    margin: 10,
+    margin: 10
   },
   instructions: {
     textAlign: 'center',
     color: '#333333',
-    marginBottom: 5,
+    marginBottom: 5
   },
   modules: {
-    margin: 20,
+    margin: 20
   },
   modulesHeader: {
     fontSize: 16,
-    marginBottom: 8,
+    marginBottom: 8
   },
   module: {
     fontSize: 14,
     marginTop: 4,
-    textAlign: 'center',
+    textAlign: 'center'
   }
 });
