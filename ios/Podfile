@@ -11,6 +11,13 @@ target 'RNFirebaseStarterKit' do
     'RCTNetwork',
     'RCTWebSocket', # needed for debugging
     # Add any other subspecs you want to use in your project
+    'RCTActionSheet',
+    'RCTAnimation',
+    'RCTGeolocation',
+    'RCTImage',
+    'RCTLinkingIOS',
+    'RCTSettings',
+    'RCTVibration'
   ]
   pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 
@@ -36,5 +43,6 @@ target 'RNFirebaseStarterKit' do
   pod 'Crashlytics', '~> 3.10.4'
 
   pod 'ReactNativePermissions', :path => '../node_modules/react-native-permissions'
+  pod 'RNImageCropPicker', :path =>  '../node_modules/react-native-image-crop-picker'
 
 end
