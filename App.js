@@ -14,6 +14,7 @@ import {
 //APIs
 import Permissions from 'react-native-permissions';
 import ImagePicker from 'react-native-image-crop-picker';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import firebase from 'react-native-firebase';
 
@@ -55,6 +56,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    const myIcon = (<Icon name="ios-arrow-down" size={30} color="#900" />)
 
     return (
       <ScrollView>
@@ -64,7 +66,7 @@ export default class App extends React.Component {
             style={[styles.logo]}
           />
           <Text style={styles.welcome}>
-            Welcome to {'\n'} React Native Firebase!!!
+            Welcome to {'\n'} React Native Firebase
           </Text>
           <Button
             title="permissions test"
@@ -74,7 +76,9 @@ export default class App extends React.Component {
             title="imagePicker test"
             onPress={this.pickImage}
           />
-
+          <View>
+           {myIcon}
+          </View>
           {/* <Text style={styles.instructions}>
             To get started, edit App.js
           </Text>
