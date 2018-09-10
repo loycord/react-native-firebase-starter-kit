@@ -13,6 +13,7 @@ import {
 
 //APIs
 import Permissions from 'react-native-permissions';
+import ImagePicker from 'react-native-image-crop-picker';
 
 import firebase from 'react-native-firebase';
 
@@ -24,14 +25,23 @@ export default class App extends React.Component {
     };
   }
 
-  _alertForPhotosPermission = () => {
-    console.log('3');
+  alertForPhotosPermission = () => {
     if (this.state.photoPermission !== 'authorized') {
       Permissions.request('photo').then(response => {
         // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
       });
     }
   };
+
+  pickImage = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(image => {
+      console.log(image);
+    });
+  }
 
   // Check the status of a single permission
   componentDidMount() {
@@ -45,8 +55,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.photoPermission);
-    console.log('2');
+
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -59,7 +68,11 @@ export default class App extends React.Component {
           </Text>
           <Button
             title="permissions test"
-            onPress={this._alertForPhotosPermission}
+            onPress={this.alertForPhotosPermission}
+          />
+          <Button
+            title="imagePicker test"
+            onPress={this.pickImage}
           />
 
           {/* <Text style={styles.instructions}>

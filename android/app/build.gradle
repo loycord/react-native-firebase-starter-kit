@@ -118,6 +118,7 @@ android {
     }
     // because of firestore:
     multiDexEnabled true
+    vectorDrawables.useSupportLibrary = true
   }
   splits {
     abi {
@@ -153,6 +154,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-image-crop-picker')
   implementation(project(':react-native-firebase')) {
     transitive = false
   }
