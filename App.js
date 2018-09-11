@@ -1,5 +1,21 @@
 import React from 'react';
-import { StyleSheet, Platform, Image, Text, View, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  Platform,
+  Image,
+  Text,
+  View,
+  ScrollView,
+  Button,
+  Alert,
+  PermissionsAndroid
+} from 'react-native';
+
+//APIs
+import Permissions from 'react-native-permissions';
+import ImagePicker from 'react-native-image-crop-picker';
+import Icon from 'react-native-vector-icons/Ionicons';
+import LottieView from 'lottie-react-native';
 
 import firebase from 'react-native-firebase';
 import { LoginManager } from 'react-native-fbsdk';
@@ -10,36 +26,54 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      // firebase things?
+      photoPermission: ''
     };
   }
 
+  alertForPhotosPermission = () => {
+    if (this.state.photoPermission !== 'authorized') {
+      Permissions.request('photo').then(response => {
+        // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      });
+    }
+  };
+
+  pickImage = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(image => {
+      console.log(image);
+    });
+  };
+
+  // Check the status of a single permission
   componentDidMount() {
-    // firebase things?
-    // Attempt a login using the Facebook login dialog asking for default permissions.
-    LoginManager.logInWithReadPermissions(['public_profile']).then(
-      function(result) {
-        if (result.isCancelled) {
-          console.log('Login cancelled');
-        } else {
-          console.log(
-            'Login success with permissions: ' + result.grantedPermissions.toString()
-          );
-        }
-      },
-      function(error) {
-        console.log('Login fail with error: ' + error);
-      }
-    );
+    if (Platform.OS === 'android') {
+      Permissions.check('photo').then(response => {
+        console.log(response);
+        // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+        this.setState({ photoPermission: response });
+      });
+    }
   }
 
   render() {
+    const myIcon = <Icon name="ios-arrow-down" size={30} color="#900" />;
+
     return (
       <ScrollView>
         <View style={styles.container}>
           <Image source={require('./assets/RNFirebase.png')} style={[styles.logo]} />
           <Text style={styles.welcome}>Welcome to {'\n'} React Native Firebase</Text>
-          <Text style={styles.instructions}>To get started, edit App.js</Text>
+          <Button title="permissions test" onPress={this.alertForPhotosPermission} />
+          <Button title="imagePicker test" onPress={this.pickImage} />
+          <View>{myIcon}</View>
+          <LottieView source={require('./Plane.json')} autoPlay loop />
+          {/* <Text style={styles.instructions}>
+            To get started, edit App.js
+          </Text>
           {Platform.OS === 'ios' ? (
             <Text style={styles.instructions}>
               Press Cmd+R to reload,
@@ -82,25 +116,13 @@ export default class App extends React.Component {
               <Text style={styles.module}>functions()</Text>
             )}
             {firebase.iid.nativeModuleExists && <Text style={styles.module}>iid()</Text>}
-            {firebase.invites.nativeModuleExists && (
-              <Text style={styles.module}>invites()</Text>
-            )}
-            {firebase.links.nativeModuleExists && (
-              <Text style={styles.module}>links()</Text>
-            )}
-            {firebase.messaging.nativeModuleExists && (
-              <Text style={styles.module}>messaging()</Text>
-            )}
-            {firebase.notifications.nativeModuleExists && (
-              <Text style={styles.module}>notifications()</Text>
-            )}
-            {firebase.perf.nativeModuleExists && (
-              <Text style={styles.module}>perf()</Text>
-            )}
-            {firebase.storage.nativeModuleExists && (
-              <Text style={styles.module}>storage()</Text>
-            )}
-          </View>
+            {firebase.invites.nativeModuleExists && <Text style={styles.module}>invites()</Text>}
+            {firebase.links.nativeModuleExists && <Text style={styles.module}>links()</Text>}
+            {firebase.messaging.nativeModuleExists && <Text style={styles.module}>messaging()</Text>}
+            {firebase.notifications.nativeModuleExists && <Text style={styles.module}>notifications()</Text>}
+            {firebase.perf.nativeModuleExists && <Text style={styles.module}>perf()</Text>}
+            {firebase.storage.nativeModuleExists && <Text style={styles.module}>storage()</Text>}
+          </View> */}
         </View>
       </ScrollView>
     );
