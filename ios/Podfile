@@ -26,4 +26,6 @@ target 'RNFirebaseStarterKit' do
   pod 'Fabric', '~> 1.7.5'
   pod 'Crashlytics', '~> 3.10.4'
 
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+
 end

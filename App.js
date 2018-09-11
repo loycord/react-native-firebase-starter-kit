@@ -21,7 +21,7 @@ export default class App extends React.Component {
         <View style={styles.container}>
           <Image source={require('./assets/RNFirebase.png')} style={[styles.logo]}/>
           <Text style={styles.welcome}>
-            Welcome to {'\n'} React Native Firebase
+            Welcome to {'\n'} React Native Firebase!!!
           </Text>
           <Text style={styles.instructions}>
             To get started, edit App.js
