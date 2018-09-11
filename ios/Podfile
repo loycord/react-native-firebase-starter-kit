@@ -26,4 +26,6 @@ target 'RNFirebaseStarterKit' do
   pod 'Fabric', '~> 1.7.5'
   pod 'Crashlytics', '~> 3.10.4'
 
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
 end

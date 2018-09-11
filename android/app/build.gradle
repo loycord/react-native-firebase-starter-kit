@@ -109,7 +109,7 @@ android {
 
   defaultConfig {
     applicationId "com.midnightplan.rnfirebasestarterkit"
-    minSdkVersion 18
+    minSdkVersion 16
     targetSdkVersion 27
     versionCode 1
     versionName "1.0"
@@ -153,6 +153,7 @@ android {
 }
 
 dependencies {
+  compile project(':lottie-react-native')
   implementation(project(':react-native-firebase')) {
     transitive = false
   }
