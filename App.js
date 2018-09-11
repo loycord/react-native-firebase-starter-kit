@@ -15,6 +15,7 @@ import {
 import Permissions from 'react-native-permissions';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
+import LottieView from 'lottie-react-native';
 
 import firebase from 'react-native-firebase';
 
@@ -42,7 +43,7 @@ export default class App extends React.Component {
     }).then(image => {
       console.log(image);
     });
-  }
+  };
 
   // Check the status of a single permission
   componentDidMount() {
@@ -56,7 +57,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    const myIcon = (<Icon name="ios-arrow-down" size={30} color="#900" />)
+    const myIcon = <Icon name="ios-arrow-down" size={30} color="#900" />;
 
     return (
       <ScrollView>
@@ -72,13 +73,9 @@ export default class App extends React.Component {
             title="permissions test"
             onPress={this.alertForPhotosPermission}
           />
-          <Button
-            title="imagePicker test"
-            onPress={this.pickImage}
-          />
-          <View>
-           {myIcon}
-          </View>
+          <Button title="imagePicker test" onPress={this.pickImage} />
+          <View>{myIcon}</View>
+          <LottieView source={require('./Plane.json')} autoPlay loop />
           {/* <Text style={styles.instructions}>
             To get started, edit App.js
           </Text>
